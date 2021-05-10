@@ -1,4 +1,4 @@
-package com.example;
+package cn.beemango.baiduasr.example;
 
 import android.app.Application;
 import android.content.Context;
