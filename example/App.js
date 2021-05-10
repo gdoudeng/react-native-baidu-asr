@@ -9,30 +9,14 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import BaiduAsr from 'react-native-baidu-asr';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default class App extends Component<{}> {
-  state = {
-    status: 'starting',
-    message: '--'
-  };
-  componentDidMount() {
-    BaiduAsr.sampleMethod('Testing', 123, (message) => {
-      this.setState({
-        status: 'native callback received',
-        message
-      });
-    });
-  }
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>☆BaiduAsr example☆</Text>
-        <Text style={styles.instructions}>STATUS: {this.state.status}</Text>
-        <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
-        <Text style={styles.instructions}>{this.state.message}</Text>
-      </View>
+        <View style={ styles.container }>
+          <Text style={ styles.welcome }>☆BaiduAsr example☆</Text>
+        </View>
     );
   }
 }
@@ -48,10 +32,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });

@@ -2,19 +2,24 @@
 
 package cn.beemango.baidu.asr;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class BaiduAsrPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new BaiduAsrModule(reactContext));
+        List<NativeModule> modules = new ArrayList<>();
+
+        modules.add(new BaiduAsrModule(reactContext));
+        modules.add(new BaiduAsrConstantModule(reactContext));
+
+        return modules;
     }
 
     @Override

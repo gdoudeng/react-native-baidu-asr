@@ -16,3 +16,6 @@ import BaiduAsr from 'react-native-baidu-asr';
 BaiduAsr;
 ```
 
+---
+
+**[MIT LICENSE](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/LICENSE)**

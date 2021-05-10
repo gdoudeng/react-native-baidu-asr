@@ -53,6 +53,10 @@ android {
     lintOptions {
         abortOnError false
     }
+    packagingOptions {
+        doNotStrip "*/*/libvad.dnn.so"
+        doNotStrip "*/*/libbd_easr_s1_merge_normal_20151216.dat.so"
+    }
 }
 
 repositories {
@@ -72,6 +76,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
+    api fileTree(exclude: '*.bak', dir: 'libs')
 }
 
 def configureReactNativePom(def pom) {
