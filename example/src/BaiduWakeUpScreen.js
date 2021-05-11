@@ -111,4 +111,8 @@ const styles = StyleSheet.create({
   bottomView: {
     marginBottom: 5,
   },
+  resultText: {
+    marginVertical: 3,
+    marginLeft: 5,
+  },
 });
