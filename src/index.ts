@@ -37,7 +37,7 @@ export default class BaiduAsr {
 
   /**
    * 暂停录音
-   * SDK会识别不会再识别停止后的录音。
+   * SDK不会再识别停止后的录音。
    */
   static stop() {
     BaiduAsrModule.stop();
@@ -53,7 +53,7 @@ export default class BaiduAsr {
 
   /**
    * 释放资源
-   * 下次需要再次使用的话必须再调用{@link init}方法，初始化引擎
+   * 下次需要再次使用的话必须再调用{@link init}方法初始化引擎
    */
   static release() {
     BaiduAsrModule.release();

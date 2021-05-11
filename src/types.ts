@@ -115,7 +115,7 @@ export interface RecognizerResultData {
 export interface RecognizerResultError {
   errorCode: number,
   subErrorCode: number,
-  descMessage: number
+  descMessage: string
 }
 
 enum ResultType {

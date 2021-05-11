@@ -69,7 +69,6 @@ export default class App extends Component {
           return {
             results: newResults,
             status: data.msg,
-            isStart: true,
           };
         });
       }

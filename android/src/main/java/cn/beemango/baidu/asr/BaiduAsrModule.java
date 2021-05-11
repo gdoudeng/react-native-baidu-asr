@@ -115,84 +115,86 @@ public class BaiduAsrModule extends ReactContextBaseJavaModule implements Lifecy
         params.put(SpeechConstant.APP_KEY, APP_KEY);
         params.put(SpeechConstant.SECRET, SECRET);
         // 下面根据可能传进来的自定义参数put进去
-        // 根据识别语种，输入法模型及是否需要在线语义，来选择PID。默认1537，即中文输入法模型，不带在线语义。PID具体值及说明见下一个表格。 其中输入法模型是指适用于长句的输入法模型模型适用于短语。
-        if (options.hasKey("PID")) {
-            params.put(SpeechConstant.PID, options.getInt("PID"));
-        }
-        // 自训练平台上线后的模型Id，必须和自训练平台的PID连用。
-        if (options.hasKey("LM_ID")) {
-            params.put(SpeechConstant.LMID, options.getInt("LM_ID"));
-        }
-        // 离在线的并行策略
-        if (options.hasKey("DECODER")) {
-            params.put(SpeechConstant.DECODER, options.getInt("DECODER"));
-        }
-        // 语音活动检测， 根据静音时长自动断句。注意不开启长语音的情况下，SDK只能录制60s音频。长语音请设置BDS_ASR_ENABLE_LONG_SPEECH参数
-        if (options.hasKey("VAD")) {
-            params.put(SpeechConstant.VAD, options.getString("VAD"));
-        }
-        // 是否开启长语音。 即无静音超时断句，开启后需手动调用ASR_STOP停止录音。 请勿和VAD=touch联用！优先级大于VAD_ENDPOINT_TIMEOUT 设置
-        if (options.hasKey("BDS_ASR_ENABLE_LONG_SPEECH")) {
-            params.put(SpeechConstant.BDS_ASR_ENABLE_LONG_SPEECH, options.getBoolean("BDS_ASR_ENABLE_LONG_SPEECH"));
-        }
-        // 静音超时断句及长语音 0是长语音
-        if (options.hasKey("VAD_ENDPOINT_TIMEOUT")) {
-            params.put(SpeechConstant.VAD_ENDPOINT_TIMEOUT, options.getInt("VAD_ENDPOINT_TIMEOUT"));
-        }
-        // 自定义输入入口 不单纯是使用麦克风采集音频 可以输入本地文件或者音频流都都行 只有使用了这个参数百度语音才不会占用麦克风
-        if (options.hasKey("IN_FILE")) {
-            params.put(SpeechConstant.IN_FILE, options.getString("IN_FILE"));
-        }
-        // 保存识别过程产生的录音文件, 该参数需要开启ACCEPT_AUDIO_DATA后生效
-        if (options.hasKey("OUT_FILE")) {
-            params.put(SpeechConstant.OUT_FILE, options.getString("OUT_FILE"));
-        }
-        if (options.hasKey("AUDIO_MILLS")) {
-            params.put(SpeechConstant.AUDIO_MILLS, options.getInt("AUDIO_MILLS"));
-        }
-        if (options.hasKey("NLU")) {
-            params.put(SpeechConstant.NLU, options.getString("NLU"));
-        }
-        if (options.hasKey("ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH")) {
-            params.put(SpeechConstant.ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH, options.getString("ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH"));
-        }
-        if (options.hasKey("SLOT_DATA")) {
-            params.put(SpeechConstant.SLOT_DATA, options.getString("SLOT_DATA"));
-        }
-        if (options.hasKey("DISABLE_PUNCTUATION")) {
-            params.put(SpeechConstant.DISABLE_PUNCTUATION, options.getBoolean("DISABLE_PUNCTUATION"));
-        }
-        if (options.hasKey("PUNCTUATION_MODE")) {
-            params.put(SpeechConstant.ASR_PUNCTUATION_MODE, options.getInt("PUNCTUATION_MODE"));
-        }
-        if (options.hasKey("ACCEPT_AUDIO_DATA")) {
-            params.put(SpeechConstant.ACCEPT_AUDIO_DATA, options.getBoolean("ACCEPT_AUDIO_DATA"));
-        }
-        // 是否需要语音音量数据回调，开启后有CALLBACK_EVENT_ASR_VOLUME事件回调
-        if (options.hasKey("ACCEPT_AUDIO_VOLUME")) {
-            params.put(SpeechConstant.ACCEPT_AUDIO_VOLUME, options.getBoolean("ACCEPT_AUDIO_VOLUME"));
-        }
-        if (options.hasKey("SOUND_START")) {
-            params.put(SpeechConstant.SOUND_START, options.getInt("SOUND_START"));
-        }
-        if (options.hasKey("SOUND_END")) {
-            params.put(SpeechConstant.SOUND_END, options.getInt("SOUND_END"));
-        }
-        if (options.hasKey("SOUND_SUCCESS")) {
-            params.put(SpeechConstant.SOUND_SUCCESS, options.getInt("SOUND_SUCCESS"));
-        }
-        if (options.hasKey("SOUND_ERROR")) {
-            params.put(SpeechConstant.SOUND_ERROR, options.getInt("SOUND_ERROR"));
-        }
-        if (options.hasKey("SOUND_CANCEL")) {
-            params.put(SpeechConstant.SOUND_CANCEL, options.getInt("SOUND_CANCEL"));
-        }
-        // 采样率 ，固定及默认值16000
-        if (options.hasKey("SAMPLE_RATE")) {
-            params.put(SpeechConstant.SAMPLE_RATE, options.getInt("SAMPLE_RATE"));
-        }
-        if (options.hasKey("ASR_OFFLINE_ENGINE_LICENSE_FILE_PATH")) {
-            params.put(SpeechConstant.ASR_OFFLINE_ENGINE_LICENSE_FILE_PATH, options.getString("ASR_OFFLINE_ENGINE_LICENSE_FILE_PATH"));
+        if (options != null) {
+            // 根据识别语种，输入法模型及是否需要在线语义，来选择PID。默认1537，即中文输入法模型，不带在线语义。PID具体值及说明见下一个表格。 其中输入法模型是指适用于长句的输入法模型模型适用于短语。
+            if (options.hasKey("PID")) {
+                params.put(SpeechConstant.PID, options.getInt("PID"));
+            }
+            // 自训练平台上线后的模型Id，必须和自训练平台的PID连用。
+            if (options.hasKey("LM_ID")) {
+                params.put(SpeechConstant.LMID, options.getInt("LM_ID"));
+            }
+            // 离在线的并行策略
+            if (options.hasKey("DECODER")) {
+                params.put(SpeechConstant.DECODER, options.getInt("DECODER"));
+            }
+            // 语音活动检测， 根据静音时长自动断句。注意不开启长语音的情况下，SDK只能录制60s音频。长语音请设置BDS_ASR_ENABLE_LONG_SPEECH参数
+            if (options.hasKey("VAD")) {
+                params.put(SpeechConstant.VAD, options.getString("VAD"));
+            }
+            // 是否开启长语音。 即无静音超时断句，开启后需手动调用ASR_STOP停止录音。 请勿和VAD=touch联用！优先级大于VAD_ENDPOINT_TIMEOUT 设置
+            if (options.hasKey("BDS_ASR_ENABLE_LONG_SPEECH")) {
+                params.put(SpeechConstant.BDS_ASR_ENABLE_LONG_SPEECH, options.getBoolean("BDS_ASR_ENABLE_LONG_SPEECH"));
+            }
+            // 静音超时断句及长语音 0是长语音
+            if (options.hasKey("VAD_ENDPOINT_TIMEOUT")) {
+                params.put(SpeechConstant.VAD_ENDPOINT_TIMEOUT, options.getInt("VAD_ENDPOINT_TIMEOUT"));
+            }
+            // 自定义输入入口 不单纯是使用麦克风采集音频 可以输入本地文件或者音频流都都行 只有使用了这个参数百度语音才不会占用麦克风
+            if (options.hasKey("IN_FILE")) {
+                params.put(SpeechConstant.IN_FILE, options.getString("IN_FILE"));
+            }
+            // 保存识别过程产生的录音文件, 该参数需要开启ACCEPT_AUDIO_DATA后生效
+            if (options.hasKey("OUT_FILE")) {
+                params.put(SpeechConstant.OUT_FILE, options.getString("OUT_FILE"));
+            }
+            if (options.hasKey("AUDIO_MILLS")) {
+                params.put(SpeechConstant.AUDIO_MILLS, options.getInt("AUDIO_MILLS"));
+            }
+            if (options.hasKey("NLU")) {
+                params.put(SpeechConstant.NLU, options.getString("NLU"));
+            }
+            if (options.hasKey("ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH")) {
+                params.put(SpeechConstant.ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH, options.getString("ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH"));
+            }
+            if (options.hasKey("SLOT_DATA")) {
+                params.put(SpeechConstant.SLOT_DATA, options.getString("SLOT_DATA"));
+            }
+            if (options.hasKey("DISABLE_PUNCTUATION")) {
+                params.put(SpeechConstant.DISABLE_PUNCTUATION, options.getBoolean("DISABLE_PUNCTUATION"));
+            }
+            if (options.hasKey("PUNCTUATION_MODE")) {
+                params.put(SpeechConstant.ASR_PUNCTUATION_MODE, options.getInt("PUNCTUATION_MODE"));
+            }
+            if (options.hasKey("ACCEPT_AUDIO_DATA")) {
+                params.put(SpeechConstant.ACCEPT_AUDIO_DATA, options.getBoolean("ACCEPT_AUDIO_DATA"));
+            }
+            // 是否需要语音音量数据回调，开启后有CALLBACK_EVENT_ASR_VOLUME事件回调
+            if (options.hasKey("ACCEPT_AUDIO_VOLUME")) {
+                params.put(SpeechConstant.ACCEPT_AUDIO_VOLUME, options.getBoolean("ACCEPT_AUDIO_VOLUME"));
+            }
+            if (options.hasKey("SOUND_START")) {
+                params.put(SpeechConstant.SOUND_START, options.getInt("SOUND_START"));
+            }
+            if (options.hasKey("SOUND_END")) {
+                params.put(SpeechConstant.SOUND_END, options.getInt("SOUND_END"));
+            }
+            if (options.hasKey("SOUND_SUCCESS")) {
+                params.put(SpeechConstant.SOUND_SUCCESS, options.getInt("SOUND_SUCCESS"));
+            }
+            if (options.hasKey("SOUND_ERROR")) {
+                params.put(SpeechConstant.SOUND_ERROR, options.getInt("SOUND_ERROR"));
+            }
+            if (options.hasKey("SOUND_CANCEL")) {
+                params.put(SpeechConstant.SOUND_CANCEL, options.getInt("SOUND_CANCEL"));
+            }
+            // 采样率 ，固定及默认值16000
+            if (options.hasKey("SAMPLE_RATE")) {
+                params.put(SpeechConstant.SAMPLE_RATE, options.getInt("SAMPLE_RATE"));
+            }
+            if (options.hasKey("ASR_OFFLINE_ENGINE_LICENSE_FILE_PATH")) {
+                params.put(SpeechConstant.ASR_OFFLINE_ENGINE_LICENSE_FILE_PATH, options.getString("ASR_OFFLINE_ENGINE_LICENSE_FILE_PATH"));
+            }
         }
 
         // params 也可以根据文档此处手动修改，参数会以json的格式在界面和logcat日志中打印

@@ -18,131 +18,130 @@
   </a>
 </p>
 
-`react-native-baidu-asr` is a Baidu speech library under React Native, which can perform speech recognition.
+`react-native-baidu-asr` 是一个 React Native 下的百度语音库，可以进行语音识别。
 
-English | [简体中文](./README-zh.md)
+[English](./README.md) | 简体中文
 
-
-## Preview
+## 预览
 
 <p align="left">
-  <img width=360 title="Preview" src="./sreenshot/ezgif.gif" alt="Preview">
+  <img width=360 title="预览" src="./sreenshot/ezgif.gif" alt="预览">
 </p>
 
-## Support
+## 支持平台
 - React Native >= 0.47.0
 - Android
 
-Currently, the iOS platform is not implemented. I will fill it up when I have time, as well as voice synthesis and voice wake-up.
+当前并未实现iOS平台，我有空一定补上，还有语音合成和语音唤醒都会补上。
 
-## Install
+## 安装
 
-- RN >= 0.60
+- 对于RN >= 0.60
 
 1. `yarn add react-native-baidu-asr`
 
-- RN < 0.60
+- 对于RN < 0.60
 
 1. `yarn add react-native-baidu-asr`
 
 2. `react-native link react-native-baidu-asr`
 
-## Usage
+## 使用
 
-- See for details [example](https://github.com/gdoudeng/react-native-baidu-asr/tree/master/example)
+- 详见[example](https://github.com/gdoudeng/react-native-baidu-asr/tree/master/example)
 
-The first is that you have to go to the [Baidu Voice Console]((https://console.bce.baidu.com/ai/?_=1620713753811&fromai=1#/ai/speech/overview/index)) to create an application, get authentication information: AppID, API Key, Secret Key.
+首先是你先要去 [百度语音控制台](https://console.bce.baidu.com/ai/?_=1620713753811&fromai=1#/ai/speech/overview/index) 创建一个应用，拿到鉴权信息：AppID，API Key，Secret Key。
 
 ```typescript
 import BaiduAsr, { RecognizerStatusCode, RecognizerData, RecognizerResultError, RecognizerResultData, VolumeData } from 'react-native-baidu-asr';
 
-// Initialize Baidu speech engine
+// 初始化百度语音引擎
 BaiduAsr.init({
-  APP_ID: 'Your authentication information AppID',
-  APP_KEY: 'Your authentication information API Key',
-  SECRET: 'Your authentication information Secret Key',
+  APP_ID: '你的鉴权信息AppID',
+  APP_KEY: '你的鉴权信息API Key',
+  SECRET: '你的鉴权信息Secret Key',
 });
 
-// Processing recognition results
+// 处理识别结果
 this.resultListener = BaiduAsr.addResultListener(this.onRecognizerResult);
-// Handling wrong results
+// 处理错误结果
 this.errorListener = BaiduAsr.addErrorListener(this.onRecognizerError);
-// Processing volume
+// 处理音量大小
 this.volumeListener = BaiduAsr.addAsrVolumeListener(this.onAsrVolume);
 
-// Start speech recognition
-// For more input parameters, please refer to Baidu Voice Document
+// 开始语音识别
+// 更多输入参数请参考百度语音文档
 // https://ai.baidu.com/ai-doc/SPEECH/bkh07sd0m#asr_start-%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E5%8F%82%E6%95%B0
 BaiduAsr.start({
-  // Long speech
+  // 长语音
   VAD_ENDPOINT_TIMEOUT: 0,
   BDS_ASR_ENABLE_LONG_SPEECH: true,
-  // Disable punctuation
+  // 禁用标点符号
   DISABLE_PUNCTUATION: true,
 });
 ```
 
 ## API
 
-### Speech Recognition
+### 语音识别
 
 #### Methods
 
 - `BaiduAsr.init(options: InitOptions)`
-
-Initialize Baidu speech engine
+  
+初始化百度语音引擎
 
 - `BaiduAsr.start(options: AsrOptions)`
-
-Start speech recognition
+  
+开始语音识别
 
 - `BaiduAsr.stop()`
 
-Pause the recording, the SDK will no longer recognize the stopped recording.
+暂停录音，SDK不会再识别停止后的录音。
 
 - `BaiduAsr.cancel()`
 
-Cancel the recording, the SDK will cancel this recognition and return to the original state.
+取消录音，SDK会取消本次识别，回到原始状态。
 
 - `BaiduAsr.release()`
 
-Release the resource. If you need to use it again next time, you must call the `init` method to initialize the engine.
+释放资源，下次需要再次使用的话必须再调用`init`方法初始化引擎。
 
 #### Events
 
-The recognition result callback data has a unified format, similar to the return of the api interface，has code，msg，data。
+识别结果回调数据有一个统一格式的，类似与api接口返回一样，有code，msg，data。
 
-`RecognizerData` The data types are as follows：
+`RecognizerData`数据类型如下：
 ```typescript
 interface RecognizerData<T = any> {
   /**
-   * status code
+   * 状态码
    */
   code: RecognizerStatusCode,
   /**
-   * message
+   * 消息
    */
   msg: string,
   /**
-   * data
+   * 数据
    */
   data: T
 }
 ```
 
 - `addResultListener(callback: (data: RecognizerData<RecognizerResultData | undefined>) => void): EmitterSubscription`  
-  Voice recognition result callback, the event will be triggered continuously during voice recognition，`data` is of type `RecognizerData<RecognizerResultData | undefined>`，Its value：
+  语音识别结果回调，在语音识别时会不断触发该事件，`data` 为 `RecognizerData<RecognizerResultData | undefined>` 类型，其值：
 
-    - `code`：status code
-    - `msg`：message
-    - `data`：Identification data
+    - `code`：状态码
+    - `msg`：消息
+    - `data`：识别数据
 
-The data types of `data` are as follows:
+其中`data`数据类型如下：
 
 ```typescript
 interface RecognizerResultData {
   best_result: string,
-  // If there is no accident, the first value is the recognition result
+  // 如无意外 取第一个值就是识别结果
   results_recognition: Array<string>,
   result_type: ResultType,
   origin_result: {
@@ -160,31 +159,31 @@ interface RecognizerResultData {
 ```
 
 - `addErrorListener(callback: (data: RecognizerData<RecognizerResultError>) => void): EmitterSubscription`  
-  There is an error in speech recognition. The error message is consistent with the Baidu speech document. Its value:
+  语音识别出现错误，错误信息与百度语音文档保持一致，其值：
 
-    - `code`：status code
-    - `msg`：message
-    - `data`：Wrong data
+    - `code`：状态码
+    - `msg`：消息
+    - `data`：错误数据
 
-The data types of `data` are as follows:
+其中`data`数据类型如下：
 
 ```typescript
 interface RecognizerResultError {
-  errorCode: number // Error code comparison Baidu voice document https://ai.baidu.com/ai-doc/SPEECH/qk38lxh1q
+  errorCode: number // 错误码对照百度语音文档 https://ai.baidu.com/ai-doc/SPEECH/qk38lxh1q
   subErrorCode: number
   descMessage: string
 }
 ```
 
 - `addAsrVolumeListener(listener: (volume: VolumeData) => void): EmitterSubscription`  
-  The volume of speech recognition. This event will be triggered when the recognized speech changes the volume. `volume` is of type `VolumeData`, and its value is:
+  语音识别的音量大小，当识别的语音改变音量时会触发该事件，`volume` 为 `VolumeData` 类型，其值：
 
-    - `volumePercent`: Current volume percentage
-    - `volume`: Current volume
+    - `volumePercent`: 当前音量百分比
+    - `volume`: 当前音量大小
 
 ## Contribute
 
-Looking forward to making relevant suggestions, contributions are welcome, thank you star.
+期待提出有关建议，欢迎做出贡献，感谢star。  
 
 [Github](https://github.com/gdoudeng/react-native-baidu-asr)
 
