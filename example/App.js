@@ -8,15 +8,74 @@
  * https://github.com/facebook/react-native
  */
 
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View, ToastAndroid, ScrollView} from 'react-native';
+import BaiduAsr, {
+  RecognizerStatusCode,
+  RecognizerData,
+  RecognizerResultError,
+  RecognizerResultData,
+} from 'react-native-baidu-asr';
 
-export default class App extends Component<{}> {
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      results: [],
+    };
+  }
+
+  componentDidMount() {
+    BaiduAsr.init({
+      APP_ID: '你的鉴权信息',
+      APP_KEY: '你的鉴权信息',
+      SECRET: '你的鉴权信息',
+    });
+    this.resultListener = BaiduAsr.addResultListener(this.onRecognizerResult);
+    this.errorListener = BaiduAsr.addErrorListener(this.onRecognizerError);
+  }
+
+  componentWillUnmount() {
+    this.resultListener?.remove();
+    this.errorListener?.remove();
+    BaiduAsr.release();
+  }
+
+  onRecognizerResult = (
+    data: RecognizerData<RecognizerResultData | undefined>,
+  ) => {
+    if (
+      data.code === RecognizerStatusCode.STATUS_SPEAKING ||
+      data.code === RecognizerStatusCode.STATUS_FINISHED
+    ) {
+      if (data.data?.results_recognition?.length) {
+        const result = data.data.results_recognition[0];
+        this.setState(preState => ({
+          results: preState.results.push(result),
+        }));
+      }
+    } else if (data.code === RecognizerStatusCode.STATUS_RECOGNITION) {
+    }
+  };
+
+  onRecognizerError = (data: RecognizerData<RecognizerResultError>) => {
+    ToastAndroid.show(
+      `${data.msg}，错误码: 【${data.data.errorCode}, ${data.data.subErrorCode}】，${data.data.descMessage}`,
+      ToastAndroid.LONG,
+    );
+    console.log('onRecognizerError ', JSON.stringify(data));
+  };
+
   render() {
     return (
-        <View style={ styles.container }>
-          <Text style={ styles.welcome }>☆BaiduAsr example☆</Text>
-        </View>
+      <View style={styles.container}>
+        <Text style={styles.welcome}>☆BaiduAsr example☆</Text>
+        <ScrollView>
+          {this.state.results.map(result => (
+            <Text>{result}</Text>
+          ))}
+        </ScrollView>
+      </View>
     );
   }
 }
