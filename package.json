@@ -2,7 +2,7 @@
   "name": "react-native-baidu-asr",
   "title": "React Native Baidu Asr",
   "version": "1.0.0",
-  "description": "TODO",
+  "description": "提供百度语音识别 React Native 接口",
   "react-native": "src/index.ts",
   "main": "src/index.ts",
   "types": "lib/typescript/index.d.ts",

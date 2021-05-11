@@ -9,35 +9,48 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ToastAndroid, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ToastAndroid,
+  ScrollView,
+  Button,
+} from 'react-native';
 import BaiduAsr, {
   RecognizerStatusCode,
   RecognizerData,
   RecognizerResultError,
   RecognizerResultData,
+  VolumeData,
 } from 'react-native-baidu-asr';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      status: '☆BaiduAsr example☆',
+      speechRecognizerVolume: 0,
       results: [],
+      isSpeaking: false,
     };
   }
 
   componentDidMount() {
     BaiduAsr.init({
-      APP_ID: '你的鉴权信息',
-      APP_KEY: '你的鉴权信息',
-      SECRET: '你的鉴权信息',
+      APP_ID: '24141837',
+      APP_KEY: 'GCrVwxKmywtDqeEKhQZeiFuE',
+      SECRET: 'Mb2iac7zbsmeSPdsY0TaS472GOvFSL0E',
     });
     this.resultListener = BaiduAsr.addResultListener(this.onRecognizerResult);
     this.errorListener = BaiduAsr.addErrorListener(this.onRecognizerError);
+    this.volumeListener = BaiduAsr.addAsrVolumeListener(this.onAsrVolume);
   }
 
   componentWillUnmount() {
     this.resultListener?.remove();
     this.errorListener?.remove();
+    this.volumeListener?.remove();
     BaiduAsr.release();
   }
 
@@ -50,11 +63,18 @@ export default class App extends Component {
     ) {
       if (data.data?.results_recognition?.length) {
         const result = data.data.results_recognition[0];
-        this.setState(preState => ({
-          results: preState.results.push(result),
-        }));
+        this.setState(preState => {
+          const newResults = preState.results;
+          newResults.push(result);
+          return {
+            results: newResults,
+            status: data.msg,
+            isSpeaking: true,
+          };
+        });
       }
     } else if (data.code === RecognizerStatusCode.STATUS_RECOGNITION) {
+      this.setState({isSpeaking: false});
     }
   };
 
@@ -66,15 +86,78 @@ export default class App extends Component {
     console.log('onRecognizerError ', JSON.stringify(data));
   };
 
+  /**
+   * 处理音量变化
+   * @param volume
+   */
+  onAsrVolume = (volume: VolumeData) => {
+    // 一共7格音量 inputRange: [0, 100] outputRange:[0, 7]
+    this.setState({
+      speechRecognizerVolume: Math.floor((7 / 100) * volume.volumePercent),
+    });
+  };
+
+  handleAction = () => {
+    if (this.state.isSpeaking) {
+      BaiduAsr.stop();
+    } else {
+      BaiduAsr.start({
+        // 长语音
+        VAD_ENDPOINT_TIMEOUT: 0,
+        BDS_ASR_ENABLE_LONG_SPEECH: true,
+        // 禁用标点符号
+        DISABLE_PUNCTUATION: true,
+      });
+      this.setState({isSpeaking: true});
+    }
+  };
+
   render() {
+    const {results, status, isSpeaking, speechRecognizerVolume} = this.state;
+    // 0,1,2,3 ...
+    const speechRecognizerVolumeList = [
+      ...Array(speechRecognizerVolume).keys(),
+    ];
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>☆BaiduAsr example☆</Text>
-        <ScrollView>
-          {this.state.results.map(result => (
-            <Text>{result}</Text>
+        <Text style={styles.welcome}>{status}</Text>
+
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          {results.map(result => (
+            <Text key={result + Math.random(5)} style={styles.resultText}>{result}</Text>
           ))}
         </ScrollView>
+
+        <View style={styles.bottomView}>
+          {speechRecognizerVolumeList.reverse().map((value, index) => (
+            <View
+              style={[
+                styles.volumeView,
+                index === 0 ? undefined : styles.ml3,
+                // @ts-ignore
+                styles[`volume${value}`],
+              ]}
+              key={index}
+            />
+          ))}
+          <View style={[styles.ml3, styles.mr3]}>
+            <Button
+              title={isSpeaking ? '暂停' : '开始'}
+              onPress={this.handleAction}
+            />
+          </View>
+          {speechRecognizerVolumeList.map((value, index) => (
+            <View
+              style={[
+                styles.volumeView,
+                value === 0 ? undefined : styles.mr3,
+                // @ts-ignore
+                styles[`volume${index}`],
+              ]}
+              key={index}
+            />
+          ))}
+        </View>
       </View>
     );
   }
@@ -83,13 +166,56 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
+  },
+  scrollViewContent: {
+    flex: 1,
+  },
+  bottomView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  volumeView: {
+    width: 5,
+    height: 18,
+    borderRadius: 6,
+  },
+  volume0: {
+    backgroundColor: 'rgba(248, 70, 70, 1)',
+  },
+  volume1: {
+    backgroundColor: 'rgba(248, 70, 70, 0.8)',
+  },
+  volume2: {
+    backgroundColor: 'rgba(248, 70, 70, 0.6)',
+  },
+  volume3: {
+    backgroundColor: 'rgba(248, 70, 70, 0.4)',
+  },
+  volume4: {
+    backgroundColor: 'rgba(248, 143, 143, 0.7)',
+  },
+  volume5: {
+    backgroundColor: 'rgba(238, 238, 238, 0.7)',
+  },
+  volume6: {
+    backgroundColor: 'rgba(255, 212, 17, 1)',
+  },
+  mr3: {
+    marginRight: 3,
+  },
+  ml3: {
+    marginLeft: 3,
+  },
+  resultText: {
+    marginVertical: 3,
+    marginLeft: 5,
   },
 });
