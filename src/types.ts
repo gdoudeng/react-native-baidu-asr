@@ -54,20 +54,39 @@ export interface AsrOptions {
   ASR_OFFLINE_ENGINE_LICENSE_FILE_PATH?: string
 }
 
+/**
+ * WAKEUP_START 输入事件参数
+ * {@see https://ai.baidu.com/ai-doc/SPEECH/bkh07sd0m#wakeup_start-%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E5%8F%82%E6%95%B0}
+ * 无需再输入鉴权信息
+ */
+export interface WakeUpOptions {
+  // 唤醒词bin文件路径，支持android asset目录（如assets:///wakeUp.bin)
+  WP_WORDS_FILE?: string
+  IN_FILE?: string
+  // 默认关闭。开启后，会有音频回调（CALLBACK_EVENT_WAKEUP_AUDIO），很占资源
+  ACCEPT_AUDIO_DATA?: boolean
+  WP_ENGINE_LICENSE_FILE_PATH?: string
+  SAMPLE_RATE?: number
+}
+
 export enum EventName {
   // 识别错误回调
   onRecognizerError = "onRecognizerError",
   // 识别结果回调
   onRecognizerResult = "onRecognizerResult",
   // 音量变化回调
-  onAsrVolume = "onAsrVolume"
+  onAsrVolume = "onAsrVolume",
+  // 唤醒结果
+  onWakeUpResult = "onWakeUpResult",
+  // 唤醒错误
+  onWakeUpError = "onWakeUpError"
 }
 
-export interface RecognizerData<T = any> {
+export interface IBaseData<T = any> {
   /**
    * 状态码
    */
-  code: RecognizerStatusCode,
+  code: StatusCode,
   /**
    * 消息
    */
@@ -78,7 +97,7 @@ export interface RecognizerData<T = any> {
   data: T
 }
 
-export enum RecognizerStatusCode {
+export enum StatusCode {
   STATUS_NONE = BaiduAsrConstantModule.STATUS_NONE,
   STATUS_READY = BaiduAsrConstantModule.STATUS_READY,
   STATUS_SPEAKING = BaiduAsrConstantModule.STATUS_SPEAKING,
@@ -116,6 +135,15 @@ export interface RecognizerResultError {
   errorCode: number,
   subErrorCode: number,
   descMessage: string
+}
+
+export interface WakeUpResultError {
+  // 错误码 可以对照百度语音文档查找错误码 https://ai.baidu.com/ai-doc/SPEECH/qk38lxh1q#%E5%94%A4%E9%86%92%E9%94%99%E8%AF%AF%E7%A0%81
+  errorCode: number,
+  // 错误消息
+  errorMessage: string,
+  // 百度语音返回的原初错误数据
+  result: string
 }
 
 enum ResultType {

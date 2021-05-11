@@ -18,22 +18,23 @@
   </a>
 </p>
 
-`react-native-baidu-asr` is a Baidu speech library under React Native, which can perform speech recognition.
+`react-native-baidu-asr` is a Baidu speech library under React Native, which can perform voice recognition and voice wake-up.
 
 English | [简体中文](./README-zh.md)
-
 
 ## Preview
 
 <p align="left">
-  <img width=360 title="Preview" src="./sreenshot/ezgif.gif" alt="Preview">
+  <img width=360 title="Preview" src="./sreenshot/asr.gif" alt="Preview">
+  <img width=360 title="Preview" src="./sreenshot/wakeup.gif" alt="Preview">
 </p>
 
 ## Support
+
 - React Native >= 0.47.0
 - Android
 
-Currently, the iOS platform is not implemented. I will fill it up when I have time, as well as voice synthesis and voice wake-up.
+Currently, the iOS platform is not implemented. I will fill it up when I have time, as well as voice synthesis.
 
 ## Install
 
@@ -51,10 +52,19 @@ Currently, the iOS platform is not implemented. I will fill it up when I have ti
 
 - See for details [example](https://github.com/gdoudeng/react-native-baidu-asr/tree/master/example)
 
-The first is that you have to go to the [Baidu Voice Console]((https://console.bce.baidu.com/ai/?_=1620713753811&fromai=1#/ai/speech/overview/index)) to create an application, get authentication information: AppID, API Key, Secret Key.
+The first is that you have to go to
+the [Baidu Voice Console]((https://console.bce.baidu.com/ai/?_=1620713753811&fromai=1#/ai/speech/overview/index)) to
+create an application, get authentication information: AppID, API Key, Secret Key.
 
 ```typescript
-import BaiduAsr, { RecognizerStatusCode, RecognizerData, RecognizerResultError, RecognizerResultData, VolumeData } from 'react-native-baidu-asr';
+import {
+  BaiduAsr,
+  StatusCode,
+  IBaseData,
+  RecognizerResultError,
+  RecognizerResultData,
+  VolumeData
+} from 'react-native-baidu-asr';
 
 // Initialize Baidu speech engine
 BaiduAsr.init({
@@ -110,15 +120,16 @@ Release the resource. If you need to use it again next time, you must call the `
 
 #### Events
 
-The recognition result callback data has a unified format, similar to the return of the api interface，has code，msg，data。
+The recognition result callback data has a unified format, similar to the api interface return, with code, msg, and data.
 
-`RecognizerData` The data types are as follows：
+`IBaseData` The data types are as follows：
+
 ```typescript
-interface RecognizerData<T = any> {
+interface IBaseData<T = any> {
   /**
    * status code
    */
-  code: RecognizerStatusCode,
+  code: StatusCode,
   /**
    * message
    */
@@ -130,8 +141,9 @@ interface RecognizerData<T = any> {
 }
 ```
 
-- `addResultListener(callback: (data: RecognizerData<RecognizerResultData | undefined>) => void): EmitterSubscription`  
-  Voice recognition result callback, the event will be triggered continuously during voice recognition，`data` is of type `RecognizerData<RecognizerResultData | undefined>`，Its value：
+- `addResultListener(callback: (data: IBaseData<RecognizerResultData | undefined>) => void): EmitterSubscription`  
+  Voice recognition result callback, the event will be triggered continuously during voice recognition，`data` is of
+  type `IBaseData<RecognizerResultData | undefined>`，Its value：
 
     - `code`：status code
     - `msg`：message
@@ -159,7 +171,7 @@ interface RecognizerResultData {
 }
 ```
 
-- `addErrorListener(callback: (data: RecognizerData<RecognizerResultError>) => void): EmitterSubscription`  
+- `addErrorListener(callback: (data: IBaseData<RecognizerResultError>) => void): EmitterSubscription`  
   There is an error in speech recognition. The error message is consistent with the Baidu speech document. Its value:
 
     - `code`：status code
@@ -177,10 +189,83 @@ interface RecognizerResultError {
 ```
 
 - `addAsrVolumeListener(listener: (volume: VolumeData) => void): EmitterSubscription`  
-  The volume of speech recognition. This event will be triggered when the recognized speech changes the volume. `volume` is of type `VolumeData`, and its value is:
+  The volume of speech recognition. This event will be triggered when the recognized speech changes the volume. `volume`
+  is of type `VolumeData`, and its value is:
 
     - `volumePercent`: Current volume percentage
     - `volume`: Current volume
+
+### Voice wake
+
+The first is to export [wake word](https://ai.baidu.com/tech/speech/wake#tech-demo) , Pre-defined wake words and custom wake words, both need to be exported and used by the wake word evaluation tool.
+
+#### Methods
+
+- `BaiduWakeUp.init(options: InitOptions)`
+
+Initialize Baidu speech engine
+
+- `BaiduWakeUp.start(options: WakeUpOptions)`
+
+Start voice wake up
+
+- `BaiduWakeUp.stop()`
+
+End voice wakeup.
+
+- `BaiduWakeUp.release()`
+
+Release the resource. If you need to use it again next time, you must call the `init` method to initialize the engine.
+
+#### Events
+
+The wake-up result callback data has a unified format, similar to the api interface return, with code, msg, and data.
+
+The data types of `IBaseData` are as follows:
+
+```typescript
+interface IBaseData<T = any> {
+  /**
+   * status code
+   */
+  code: StatusCode,
+  /**
+   * message
+   */
+  msg: string,
+  /**
+   * data
+   */
+  data: T
+}
+```
+
+- `addResultListener(callback: (data: IBaseData<string | undefined>) => void): EmitterSubscription`  
+  Voice wake up result callback, `data` is `IBaseData<string | undefined>` type, its value:
+
+    - `code`：status code
+    - `msg`：message
+    - `data`：Wake word
+
+- `addErrorListener(callback: (data: IBaseData<WakeUpResultError>) => void): EmitterSubscription`  
+  There is an error in voice wake-up. The error message is consistent with the Baidu voice document. Its value:
+
+    - `code`：status code
+    - `msg`：message
+    - `data`：Wrong data
+
+The data types of `data` are as follows:
+
+```typescript
+interface WakeUpResultError {
+  // Error code You can look up the error code against Baidu voice documents https://ai.baidu.com/ai-doc/SPEECH/qk38lxh1q#%E5%94%A4%E9%86%92%E9%94%99%E8%AF%AF%E7%A0%81
+  errorCode: number,
+  // wrong information
+  errorMessage: string,
+  // Original error data returned by Baidu Voice
+  result: string
+}
+```
 
 ## Contribute
 

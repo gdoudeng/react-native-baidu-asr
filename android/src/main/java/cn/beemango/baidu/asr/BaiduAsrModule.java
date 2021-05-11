@@ -58,6 +58,7 @@ public class BaiduAsrModule extends ReactContextBaseJavaModule implements Lifecy
         reactContext.addLifecycleEventListener(this);
     }
 
+    @NonNull
     @Override
     public String getName() {
         return TAG;
@@ -360,14 +361,14 @@ public class BaiduAsrModule extends ReactContextBaseJavaModule implements Lifecy
     static class ListenHandler extends Handler {
         private final WeakReference<BaiduAsrModule> baiduAsrModuleWeakReference;
 
-        public ListenHandler(BaiduAsrModule mSpeechRecognizer) {
-            this.baiduAsrModuleWeakReference = new WeakReference<>(mSpeechRecognizer);
+        public ListenHandler(BaiduAsrModule baiduAsrModule) {
+            this.baiduAsrModuleWeakReference = new WeakReference<>(baiduAsrModule);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            BaiduAsrModule baiduAsrModule = baiduAsrModuleWeakReference.get();
+            BaiduAsrModule baiduAsrModule = this.baiduAsrModuleWeakReference.get();
             baiduAsrModule.handleMsg(msg);
         }
     }

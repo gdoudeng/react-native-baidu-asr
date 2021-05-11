@@ -18,6 +18,7 @@ public class BaiduAsrPackage implements ReactPackage {
 
         modules.add(new BaiduAsrModule(reactContext));
         modules.add(new BaiduAsrConstantModule(reactContext));
+        modules.add(new BaiduWakeUpModule(reactContext));
 
         return modules;
     }
