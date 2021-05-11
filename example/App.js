@@ -32,7 +32,7 @@ export default class App extends Component {
       status: '☆BaiduAsr example☆',
       speechRecognizerVolume: 0,
       results: [],
-      isSpeaking: false,
+      isStart: false,
     };
   }
 
@@ -69,12 +69,12 @@ export default class App extends Component {
           return {
             results: newResults,
             status: data.msg,
-            isSpeaking: true,
+            isStart: true,
           };
         });
       }
     } else if (data.code === RecognizerStatusCode.STATUS_RECOGNITION) {
-      this.setState({isSpeaking: false});
+      console.log('用户说话结束');
     }
   };
 
@@ -98,8 +98,9 @@ export default class App extends Component {
   };
 
   handleAction = () => {
-    if (this.state.isSpeaking) {
-      BaiduAsr.stop();
+    if (this.state.isStart) {
+      BaiduAsr.cancel();
+      this.setState({isStart: false});
     } else {
       BaiduAsr.start({
         // 长语音
@@ -108,12 +109,12 @@ export default class App extends Component {
         // 禁用标点符号
         DISABLE_PUNCTUATION: true,
       });
-      this.setState({isSpeaking: true});
+      this.setState({isStart: true});
     }
   };
 
   render() {
-    const {results, status, isSpeaking, speechRecognizerVolume} = this.state;
+    const {results, status, isStart, speechRecognizerVolume} = this.state;
     // 0,1,2,3 ...
     const speechRecognizerVolumeList = [
       ...Array(speechRecognizerVolume).keys(),
@@ -142,7 +143,7 @@ export default class App extends Component {
           ))}
           <View style={[styles.ml3, styles.mr3]}>
             <Button
-              title={isSpeaking ? '暂停' : '开始'}
+              title={isStart ? '结束' : '开始'}
               onPress={this.handleAction}
             />
           </View>
