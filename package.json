@@ -3,15 +3,20 @@
   "title": "React Native Baidu Asr",
   "version": "1.0.0",
   "description": "TODO",
-  "main": "index.js",
+  "react-native": "src/index.ts",
+  "main": "src/index.ts",
+  "types": "lib/typescript/index.d.ts",
   "files": [
     "README.md",
     "android",
-    "index.js",
+    "/src",
+    "/lib",
     "ios",
     "react-native-baidu-asr.podspec"
   ],
   "scripts": {
+    "prepare": "bob build",
+    "ci:publish": "yarn semantic-release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,12 +25,25 @@
     "baseUrl": "https://github.com/gdoudeng/react-native-baidu-asr"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "react-native-baidu-asr",
+    "react",
+    "native",
+    "baidu",
+    "asr",
+    "speech"
   ],
   "author": {
     "name": "DengWeibin",
     "email": "dengweibin@beemango.cn"
   },
+  "contributors": [
+    {
+      "name": "DengWeibin",
+      "email": "dengweibin@beemango.cn"
+    }
+  ],
+  "homepage": "https://github.com/gdoudeng/react-native-baidu-asr",
   "license": "MIT",
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
@@ -34,7 +52,23 @@
     "react-native": ">=0.60.0-rc.0 <1.0.x"
   },
   "devDependencies": {
-    "react": "^16.9.0",
-    "react-native": "^0.61.5"
-  }
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@types/react": "16.9.54",
+    "@types/react-native": "0.63.30",
+    "react-native-builder-bob": "^0.18.1",
+    "semantic-release": "^17.4.2",
+    "typescript": "^4.1.5"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "typescript"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ]
 }

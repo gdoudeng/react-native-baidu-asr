@@ -42,3 +42,6 @@ buck-out/
 *.keystore
 
 **.lock
+
+.env
+lib

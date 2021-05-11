@@ -1,0 +1,7 @@
+example/
+node_modules/
+npm-debug.log
+*.md
+.DS_Store
+.idea
+*.ipa

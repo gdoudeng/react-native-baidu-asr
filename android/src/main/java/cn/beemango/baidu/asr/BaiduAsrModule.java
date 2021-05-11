@@ -70,7 +70,7 @@ public class BaiduAsrModule extends ReactContextBaseJavaModule implements Lifecy
      */
     @ReactMethod
     public void init(final ReadableMap options) {
-        if (myRecognizer != null || isListening) {
+        if (myRecognizer != null || isListening || options == null) {
             return;
         }
         // 基于DEMO集成第1.1, 1.2, 1.3 步骤 初始化EventManager类并注册自定义输出事件
