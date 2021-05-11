@@ -3,10 +3,10 @@ on:
   push:
     branches:
       - master
-    paths:
-      - "android/**"
-      - "ios/**"
-      - "src/**"
+#    paths:
+#      - "android/**"
+#      - "ios/**"
+#      - "src/**"
 
 jobs:
   release:
