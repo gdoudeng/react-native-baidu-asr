@@ -181,6 +181,16 @@ interface RecognizerResultError {
     - `volumePercent`: 当前音量百分比
     - `volume`: 当前音量大小
 
+## 减少apk体积
+
+如果直接接入的话，你会发现apk包体积会瞬间大了5/6兆，这是因为现在有 [5个架构](https://ai.baidu.com/ai-doc/SPEECH/dk38lxg4d#ndk-so%E5%BA%93%E6%9E%B6%E6%9E%84) 目录：`armeabi`，`armeabi-v7a`，`arm64-v8a`，`x86`，`x86_64`
+
+尽管现在是只有语音识别，我每个架构都只保留了两个so文件，但是没必要每个架构都有的其实，现在国内应用市场是仍然需要上传32位架构的apk，但是Google市场再就要求上传64位了，国内小米，oppo，vivo也说开始联手强制开发者以后必须且只能上传64位结构的apk。[安卓APP升级64位架构的相关通知](https://open.oppomobile.com/service/message/detail?id=229507)
+
+所以目前我建议是分开架构打包，32位和64位分开打包，这样可以减少包体积，但是注意如果你接入了其他sdk，那么也要保证有对应架构的so文件。
+
+具体操作可以参考example的[build.gradle](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/example/android/app/build.gradle)
+
 ## Contribute
 
 期待提出有关建议，欢迎做出贡献，感谢star。  

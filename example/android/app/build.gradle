@@ -91,7 +91,7 @@ apply from: "../../node_modules/react-native/react.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
@@ -139,10 +139,10 @@ android {
     }
     splits {
         abi {
-            reset()
+            reset() // 重置 ABI 列表为只包含一个空字符串（与 include 一起使用可以表示要使用哪一个 ABI，而不是要 exclude 哪些 ABI）
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+            universalApk false  // 是否打包一个通用版本（包含所有的 ABI ），默认值为 false，为 false 时每个 ABI 打一个包。
+            include "arm64-v8a", "armeabi-v7a" // 指明要包含哪些 ABI
         }
     }
     signingConfigs {
@@ -167,20 +167,22 @@ android {
     }
 
     // applicationVariants are e.g. debug, release
+    //自定义apk名称含版本号信息
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
+        // 更新至Android Studio 3.3 gradle 4.10.1
+        variant.outputs.all { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html
-            // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+            // 你不必改versionCodeOverride 因为国内市场是要求你尽管架构不一样 但是versionCode一定要一样才能上传
             def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
-            }
-
+            outputFileName = "cn.beemango.baiduasr.example_${abi}_${variant.versionName}_${releaseTime()}.apk"
         }
     }
+}
+
+//获取编译时间
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd-HH-mm", TimeZone.getTimeZone("GMT+8"))
 }
 
 dependencies {
