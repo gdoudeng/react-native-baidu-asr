@@ -9,8 +9,6 @@ import {
   VolumeData
 } from "./types";
 
-export * from './types';
-
 const BaiduAsrModule = NativeModules.BaiduAsrModule;
 const eventEmitter = new NativeEventEmitter(BaiduAsrModule);
 

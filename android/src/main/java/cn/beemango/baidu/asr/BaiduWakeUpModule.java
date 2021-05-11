@@ -2,7 +2,6 @@ package cn.beemango.baidu.asr;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -23,14 +22,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_ASR_VOLUME;
 import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_ERROR;
-import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_FINISHED;
-import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_LONG_SPEECH_FINISHED;
-import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_NONE;
-import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_READY;
-import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_RECOGNITION;
-import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_SPEAKING;
 import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_WAITING_READY;
 import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_WAKEUP_EXIT;
 import static com.baidu.aip.asrwakeup3.core.recog.IStatus.STATUS_WAKEUP_SUCCESS;
