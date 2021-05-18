@@ -473,7 +473,7 @@ interface SynthesizerResultError {
 
 具体操作可以参考example的[build.gradle](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/example/android/app/build.gradle)
 
-如果这样还是有用户对apk体积有极致要求的话，我可能会考虑用户自行导入所需so库，例如你只需要语音识别，其他都不需要，那么有一些so文件确实是不用导入的。
+如果这样还是有用户对apk体积有比较高的要求的话，我可能会考虑用户自行导入所需so库，例如你只需要语音识别，其他都不需要，那么有一些so文件确实是不用导入的。
 
 ## Contribute
 
