@@ -138,7 +138,7 @@ Then if you need to compile above api level 28, you also need to modify `Android
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
 
-        <!-- 千万别忘了加这一句。支持api level 28 以上编译-->
+        <!-- Add this sentence. Support api level 28 and above compilation-->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

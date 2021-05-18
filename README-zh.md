@@ -137,7 +137,7 @@ BaiduWakeUp.start({
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
 
-        <!-- 千万别忘了加这一句。支持api level 28 以上编译-->
+        <!-- 加这一句。支持api level 28 以上编译-->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
