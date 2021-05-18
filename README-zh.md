@@ -124,12 +124,15 @@ BaiduWakeUp.start({
 
 - 语音合成
 
-语音合成的鉴权信息放在`assets`目录中的 [auth.properties](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/example/android/app/src/main/assets/auth.properties) ，参考example的做法。
+语音合成的鉴权信息放在`assets`
+目录中的 [auth.properties](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/example/android/app/src/main/assets/auth.properties)
+，参考example的做法。
 
 然后需要在api level 28 以上编译的话，还需要修改`AndroidManifest.xml`，
 
 ```xml
- <application
+
+<application
         android:name=".MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -137,14 +140,14 @@ BaiduWakeUp.start({
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
 
-        <!-- 加这一句。支持api level 28 以上编译-->
-        <uses-library
+    <!-- 加这一句。支持api level 28 以上编译-->
+    <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
+            android:required="false"/>
 
-        // ...
-    
-    </application>
+    // ...
+
+</application>
 ```
 
 ```typescript

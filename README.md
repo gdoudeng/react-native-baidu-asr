@@ -18,7 +18,8 @@
   </a>
 </p>
 
-`react-native-baidu-asr` It is a Baidu speech library under React Native, which can perform speech recognition, speech wake-up and speech synthesis.
+`react-native-baidu-asr` It is a Baidu speech library under React Native, which can perform speech recognition, speech
+wake-up and speech synthesis.
 
 English | [简体中文](./README-zh.md)
 
@@ -97,7 +98,8 @@ BaiduAsr.start({
 
 - Voice wake
 
-The first is to export [wake word](https://ai.baidu.com/tech/speech/wake#tech-demo) , Pre-defined wake words and custom wake words, both need to be exported and used by the wake word evaluation tool.
+The first is to export [wake word](https://ai.baidu.com/tech/speech/wake#tech-demo) , Pre-defined wake words and custom
+wake words, both need to be exported and used by the wake word evaluation tool.
 
 ```typescript
 import { BaiduWakeUp } from 'react-native-baidu-asr';
@@ -125,12 +127,15 @@ BaiduWakeUp.start({
 
 - Speech synthesis
 
-The authentication information of speech synthesis is placed in [auth.properties](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/example/android/app/src/main/assets/auth.properties)  in the `assets` directory, please refer to the example.
+The authentication information of speech synthesis is placed
+in [auth.properties](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/example/android/app/src/main/assets/auth.properties)
+in the `assets` directory, please refer to the example.
 
 Then if you need to compile above api level 28, you also need to modify `AndroidManifest.xml`,
 
 ```xml
- <application
+
+<application
         android:name=".MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -138,14 +143,14 @@ Then if you need to compile above api level 28, you also need to modify `Android
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
 
-        <!-- Add this sentence. Support api level 28 and above compilation-->
-        <uses-library
+    <!-- Add this sentence. Support api level 28 and above compilation-->
+    <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
+            android:required="false"/>
 
-        // ...
-    
-    </application>
+    // ...
+
+</application>
 ```
 
 ```typescript
@@ -225,7 +230,8 @@ Release the resource. If you need to use it again next time, you must call the `
 
 #### Events
 
-The recognition result callback data has a unified format, similar to the api interface return, with code, msg, and data.
+The recognition result callback data has a unified format, similar to the api interface return, with code, msg, and
+data.
 
 `IBaseData` The data types are as follows：
 
@@ -426,7 +432,8 @@ interface SynthesizerData<T = any> {
 ```
 
 - `addResultListener(callback: (data: SynthesizerData<SynthesizerResultData | string | undefined>) => void): EmitterSubscription`  
-  Synthesis result callback, `data` is `SynthesizerData<SynthesizerResultData | string | undefined>` type, and its value:
+  Synthesis result callback, `data` is `SynthesizerData<SynthesizerResultData | string | undefined>` type, and its
+  value:
 
     - `code`：status code
     - `msg`：message
@@ -463,7 +470,6 @@ interface SynthesizerResultError {
   description: string
 }
 ```
-
 
 ## Contribute
 
