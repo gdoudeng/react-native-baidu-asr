@@ -35,7 +35,7 @@
 - React Native >= 0.47.0
 - Android
 
-当前并未实现iOS平台，我有空一定补上。
+当前并未实现iOS平台，我有空会补上。
 
 ## 安装
 
@@ -473,7 +473,7 @@ interface SynthesizerResultError {
 
 具体操作可以参考example的[build.gradle](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/example/android/app/build.gradle)
 
-如果这样还是有用户对apk体积有比较高的要求的话，我可能会考虑用户自行导入所需so库，例如你只需要语音识别，其他都不需要，那么有一些so文件确实是不用导入的。
+如果这样还是有用户对apk体积有比较高的要求的话，后面版本可能会考虑用户自行导入所需so库，例如你只需要语音识别，其他都不需要，那么有一些so文件是不用导入的。
 
 ## Contribute
 
