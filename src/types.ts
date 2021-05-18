@@ -1,6 +1,7 @@
 import { NativeModules } from "react-native";
 
 const BaiduAsrConstantModule = NativeModules.BaiduAsrConstantModule;
+const BaiduSynthesizerConstantModule = NativeModules.BaiduSynthesizerConstantModule;
 
 export interface InitOptions {
   APP_ID: string
@@ -79,7 +80,11 @@ export enum EventName {
   // 唤醒结果
   onWakeUpResult = "onWakeUpResult",
   // 唤醒错误
-  onWakeUpError = "onWakeUpError"
+  onWakeUpError = "onWakeUpError",
+  // 合成错误
+  onSynthesizerError = "onSynthesizerError",
+  // 合成结果回调
+  onSynthesizerResult = "onSynthesizerResult",
 }
 
 export interface IBaseData<T = any> {
@@ -160,4 +165,75 @@ export interface VolumeData {
   volumePercent: number
   // 音量
   volume: number
+}
+
+/**
+ * 语音合成参数
+ * 详细参数解析看 {@see https://ai.baidu.com/ai-doc/SPEECH/Pk8446an5#%E5%90%88%E6%88%90%E5%8F%82%E6%95%B0}
+ */
+export interface ITtsOptions {
+  // 仅在线生效，在线的发音
+  PARAM_SPEAKER?: string
+  // 在线合成的音量 。范围["0" - "15"], 不支持小数。 "0" 最轻，"15" 最响 默认 "5"
+  PARAM_VOLUME?: string
+  // 在线合成的语速 。范围["0" - "15"], 不支持小数。 "0" 最慢，"15" 最快 默认 "5"
+  PARAM_SPEED?: string
+  // 在线合成的语调 。范围["0" - "15"], 不支持小数。 "0" 最低沉， "15" 最尖 默认 "5"
+  PARAM_PITCH?: string
+  // 下面两个基本不用
+  PARAM_AUDIO_ENCODE?: string
+  PARAM_AUDIO_RATE?: string
+}
+
+export interface SynthesizerResultError {
+  // 话语id
+  utteranceId: string
+  // 错误码 详细查看百度文档 https://ai.baidu.com/ai-doc/SPEECH/qk844cpcs
+  code: number
+  // 错误描述
+  description: string
+}
+
+// 合成过程中有很多种状态 从初始化开始 到 合成 到播放结束 所以data其实是不定的
+export interface SynthesizerResultData {
+  // 话语id
+  utteranceId?: string
+  // 合成进度或者播放进度
+  progress?: number
+}
+
+export interface SynthesizerData<T = any> {
+  /**
+   * 状态码
+   */
+  code: SynthesizerStatusCode,
+  /**
+   * 消息
+   */
+  msg: string,
+  /**
+   * 数据
+   */
+  data: T
+}
+
+export enum SynthesizerStatusCode {
+  // 初始状态
+  STATUS_NONE = BaiduSynthesizerConstantModule.STATUS_NONE,
+  // 初始化成功
+  INIT_SUCCESS = BaiduSynthesizerConstantModule.INIT_SUCCESS,
+  // 开始合成
+  STATUS_SYNTHESIZE_START = BaiduSynthesizerConstantModule.STATUS_SYNTHESIZE_START,
+  // 合成中
+  STATUS_SYNTHESIZE_PROCESSING = BaiduSynthesizerConstantModule.STATUS_SYNTHESIZE_PROCESSING,
+  // 合成结束
+  STATUS_SYNTHESIZE_FINISH = BaiduSynthesizerConstantModule.STATUS_SYNTHESIZE_FINISH,
+  // 开始播放
+  STATUS_SPEAK_START = BaiduSynthesizerConstantModule.STATUS_SPEAK_START,
+  // 播放中
+  STATUS_SPEAKING = BaiduSynthesizerConstantModule.STATUS_SPEAKING,
+  // 播放结束
+  STATUS_SPEAK_FINISH = BaiduSynthesizerConstantModule.STATUS_SPEAK_FINISH,
+  // 合成错误
+  STATUS_ERROR = BaiduSynthesizerConstantModule.STATUS_ERROR,
 }

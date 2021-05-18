@@ -77,6 +77,7 @@ export default class BaiduAsrScreen extends Component {
   };
 
   onRecognizerError = (data: IBaseData<RecognizerResultError>) => {
+    this.setState({status: data.msg});
     ToastAndroid.show(
       `${data.msg}，错误码: 【${data.data.errorCode}, ${data.data.subErrorCode}】，${data.data.descMessage}`,
       ToastAndroid.LONG,

@@ -201,7 +201,9 @@ public class BaiduAsrModule extends ReactContextBaseJavaModule implements Lifecy
         // params 也可以根据文档此处手动修改，参数会以json的格式在界面和logcat日志中打印
         Log.i(TAG, "设置的start输入参数：" + params);
         // 复制此段可以自动检测常规错误
-        (new AutoCheck(mReactApplicationContext.getApplicationContext(), new MyHandler(), false)).checkAsr(params);
+        if (BuildConfig.DEBUG) {
+            (new AutoCheck(mReactApplicationContext.getApplicationContext(), new MyHandler(), false)).checkAsr(params);
+        }
 
         // 这里打印出params， 填写至您自己的app中，直接调用下面这行代码即可。
         // DEMO集成步骤2.2 开始识别

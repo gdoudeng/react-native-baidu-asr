@@ -7,8 +7,11 @@ import {
   ToastAndroid,
   View,
 } from 'react-native';
-import {BaiduWakeUp} from 'react-native-baidu-asr';
-import {IBaseData, WakeUpResultError} from '../../src';
+import {
+  BaiduWakeUp,
+  IBaseData,
+  WakeUpResultError,
+} from 'react-native-baidu-asr';
 
 class BaiduWakeUpScreen extends Component {
   constructor(props) {
@@ -48,6 +51,7 @@ class BaiduWakeUpScreen extends Component {
   };
 
   onWakeUpError = (data: IBaseData<WakeUpResultError>) => {
+    this.setState({status: data.msg});
     ToastAndroid.show(
       `${data.msg}，错误码: 【${data.data.errorCode}】，错误消息：${data.data.errorMessage}，原始返回：${data.data.result}`,
       ToastAndroid.LONG,

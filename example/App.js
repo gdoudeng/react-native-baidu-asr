@@ -4,6 +4,7 @@ import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import BaiduAsrScreen from './src/BaiduAsrScreen';
 import HomeScreen from './src/HomeScreen';
 import BaiduWakeUpScreen from './src/BaiduWakeUpScreen';
+import BaiduSynthesizerScreen from './src/BaiduSynthesizerScreen';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,13 @@ export default function App() {
           component={BaiduWakeUpScreen}
           options={{
             title: '语音唤醒',
+          }}
+        />
+        <Stack.Screen
+          name="BaiduSynthesizer"
+          component={BaiduSynthesizerScreen}
+          options={{
+            title: '语音合成',
           }}
         />
       </Stack.Navigator>

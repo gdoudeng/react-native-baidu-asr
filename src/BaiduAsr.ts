@@ -67,7 +67,11 @@ export default class BaiduAsr {
     return eventEmitter.addListener(eventName, (data: IBaseData<string | undefined>) => {
       // java传过来的是字符串
       if (data.data && typeof data.data === "string") {
-        data.data = JSON.parse(data.data);
+        try {
+          data.data = JSON.parse(data.data);
+        } catch (e) {
+          console.log(e)
+        }
       }
       cb(data);
     });
