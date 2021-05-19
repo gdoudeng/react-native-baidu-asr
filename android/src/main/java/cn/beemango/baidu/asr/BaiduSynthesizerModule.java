@@ -266,7 +266,6 @@ public class BaiduSynthesizerModule extends ReactContextBaseJavaModule implement
     }
 
     private void handleMsg(Message msg) {
-        Log.d(TAG, "handleMsg " + msg.toString());
         WritableMap params = Arguments.createMap();
         switch (msg.what) {
             case MainHandlerConstant.STATUS_NONE:
