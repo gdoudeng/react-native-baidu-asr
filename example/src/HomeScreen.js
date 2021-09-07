@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  PermissionsAndroid,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,6 +14,16 @@ class HomeScreen extends Component {
     {title: '语音唤醒', route: 'BaiduWakeUp'},
     {title: '语音合成', route: 'BaiduSynthesizer'},
   ];
+
+  componentDidMount() {
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   handleItemPress = item => {
     this.props.navigation.navigate(item.route);
