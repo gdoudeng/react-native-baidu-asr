@@ -56,6 +56,8 @@
 首先是你先要去 [百度语音控制台](https://console.bce.baidu.com/ai/?_=1620713753811&fromai=1#/ai/speech/overview/index)
 创建一个应用，拿到鉴权信息：AppID，API Key，Secret Key。
 
+> 现在我进行测试发现免费测试次数已经被用完了，需要测试的同学需要自己另外去申请鉴权信息。
+
 - 语音识别
 
 ```typescript
@@ -128,7 +130,7 @@ BaiduWakeUp.start({
 目录中的 [auth.properties](https://github.com/gdoudeng/react-native-baidu-asr/blob/master/example/android/app/src/main/assets/auth.properties)
 ，参考example的做法。
 
-然后需要在api level 28 以上编译的话，还需要修改`AndroidManifest.xml`，
+然后需要在api level 28 以上编译的话，还需要修改`AndroidManifest.xml`
 
 ```xml
 
@@ -483,6 +485,14 @@ interface SynthesizerResultError {
 期待提出有关建议，欢迎做出贡献，感谢star。
 
 [Github](https://github.com/gdoudeng/react-native-baidu-asr)
+
+## 鸣谢
+
+本库使用[create-react-native-module](https://github.com/brodybits/create-react-native-module)创建
+
+```
+create-react-native-module --native-package-id cn.beemango.baidu.asr  --author-name DengWeibin --author-email dengweibin@beemango.cn --github-account gdoudeng --generate-example BaiduAsr
+```
 
 ## License
 
