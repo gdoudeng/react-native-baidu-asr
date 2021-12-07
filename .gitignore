@@ -45,3 +45,5 @@ buck-out/
 
 .env
 lib
+
+._*
