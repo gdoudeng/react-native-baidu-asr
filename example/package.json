@@ -16,10 +16,10 @@
     "react": "17.0.1",
     "react-native": "0.64.1",
     "react-native-baidu-asr": "link:../",
-    "react-native-gesture-handler": "^1.10.3",
-    "react-native-reanimated": "^2.1.0",
-    "react-native-safe-area-context": "^3.2.0",
-    "react-native-screens": "^3.2.0"
+    "react-native-gesture-handler": "1.10.3",
+    "react-native-reanimated": "2.1.0",
+    "react-native-safe-area-context": "3.2.0",
+    "react-native-screens": "3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

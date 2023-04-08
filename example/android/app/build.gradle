@@ -188,7 +188,7 @@ static def releaseTime() {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.facebook.react:react-native:0.64.1"  // fix example报错
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
