@@ -125,6 +125,15 @@ public class BaiduSynthesizerModule extends ReactContextBaseJavaModule implement
         synthesizer = new NonBlockSyntherizer(mReactApplicationContext.getApplicationContext(), config, mainHandler); // 此处可以改为MySyntherizer 了解调用过程
     }
 
+    @ReactMethod
+    public void addListener(String eventName) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+    @ReactMethod
+    public void removeListeners(Integer count) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
     private InitConfig getInitConfig(SpeechSynthesizerListener listener, final ReadableMap options) {
         Map<String, String> params = getParams(options);
         // 添加你自己的参数

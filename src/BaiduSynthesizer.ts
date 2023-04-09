@@ -81,11 +81,11 @@ export default class BaiduSynthesizer {
   private static addListener(eventName: EventName, cb: (data: SynthesizerData) => void): EmitterSubscription {
     return eventEmitter.addListener(eventName, (data: SynthesizerData<string | undefined>) => {
       // java传过来的是字符串
-      if (data.code && typeof data.data === "string") {
+      if (data.code && typeof data.data === "string" && data.data.startsWith("{")) {
         try {
           data.data = JSON.parse(data.data);
         } catch (e) {
-          console.log(e)
+          console.log("BaiduSynthesizer.addListener JSON.parse error", e, data.data)
         }
       }
       cb(data);
