@@ -190,12 +190,19 @@ public class BaiduSynthesizerModule extends ReactContextBaseJavaModule implement
      * 合成并播放
      */
     @ReactMethod
-    public void speak(String text, final ReadableMap options, Callback callback) {
+    public void speak(String text, String utteranceId, final ReadableMap options, Callback callback) {
         if (!TextUtils.isEmpty(text) && synthesizer != null) {
             // 合成前可以修改参数：
             Map<String, String> params = getParams(options);
             synthesizer.setParams(params);
-            int result = synthesizer.speak(text);
+            // int result = synthesizer.speak(text);
+            int result;
+            if (utteranceId == null) {
+                result = synthesizer.speak(text);
+            } else {
+                result = synthesizer.speak(text, utteranceId);
+            }
+
             if (callback != null) {
                 callback.invoke(result);
             }
@@ -323,8 +330,10 @@ public class BaiduSynthesizerModule extends ReactContextBaseJavaModule implement
         }
 
         if (msg.what == MainHandlerConstant.STATUS_ERROR) {
+//            Log.w("错误回调 ", params.toString());
             onJSEvent("onSynthesizerError", params);
         } else {
+//            Log.w("结果回调 ", params.toString());
             onJSEvent("onSynthesizerResult", params);
         }
     }
