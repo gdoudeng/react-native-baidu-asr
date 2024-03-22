@@ -23,9 +23,7 @@ export default class BaiduSynthesizer {
    * @param callback status=0表示成功
    */
   static speak(text: string, options?: ITtsOptions, callback?: (status: number) => void, utteranceId?: string) {
-    // BaiduSynthesizerModule.speak(text, options, callback, utteranceId);
     BaiduSynthesizerModule.speak(text, utteranceId, options, callback);
-    // BaiduSynthesizerModule.speak(text, options, callback);
   }
 
   /**
