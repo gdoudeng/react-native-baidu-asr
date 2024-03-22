@@ -195,7 +195,6 @@ public class BaiduSynthesizerModule extends ReactContextBaseJavaModule implement
             // 合成前可以修改参数：
             Map<String, String> params = getParams(options);
             synthesizer.setParams(params);
-            // int result = synthesizer.speak(text);
             int result;
             if (utteranceId == null) {
                 result = synthesizer.speak(text);
@@ -330,10 +329,8 @@ public class BaiduSynthesizerModule extends ReactContextBaseJavaModule implement
         }
 
         if (msg.what == MainHandlerConstant.STATUS_ERROR) {
-//            Log.w("错误回调 ", params.toString());
             onJSEvent("onSynthesizerError", params);
         } else {
-//            Log.w("结果回调 ", params.toString());
             onJSEvent("onSynthesizerResult", params);
         }
     }
