@@ -1,5 +1,5 @@
-import { EmitterSubscription, NativeEventEmitter, NativeModules } from 'react-native';
-import { EventName, ITtsOptions, SynthesizerData, SynthesizerResultData, SynthesizerResultError } from './types';
+import { EmitterSubscription, NativeEventEmitter, NativeModules } from "react-native";
+import { EventName, ITtsOptions, SynthesizerData, SynthesizerResultData, SynthesizerResultError } from "./types";
 
 const BaiduSynthesizerModule = NativeModules.BaiduSynthesizerModule;
 const eventEmitter = new NativeEventEmitter(BaiduSynthesizerModule);
@@ -37,7 +37,7 @@ export default class BaiduSynthesizer {
     options?: ITtsOptions | ((status: number) => void),
     callback?: (status: number) => void
   ): void {
-    if (typeof utteranceId === 'string') {
+    if (typeof utteranceId === "string") {
       BaiduSynthesizerModule.speak(text, utteranceId, options as ITtsOptions, callback);
     } else {
       BaiduSynthesizerModule.speak(text, null, utteranceId as ITtsOptions, options as (status: number) => void);
@@ -99,11 +99,11 @@ export default class BaiduSynthesizer {
   private static addListener(eventName: EventName, cb: (data: SynthesizerData) => void): EmitterSubscription {
     return eventEmitter.addListener(eventName, (data: SynthesizerData<string | undefined>) => {
       // java传过来的是字符串
-      if (data.code && typeof data.data === 'string' && data.data.startsWith('{')) {
+      if (data.code && typeof data.data === "string" && data.data.startsWith("{")) {
         try {
           data.data = JSON.parse(data.data);
         } catch (e) {
-          console.log('BaiduSynthesizer.addListener JSON.parse error', e, data.data);
+          console.log("BaiduSynthesizer.addListener JSON.parse error", e, data.data);
         }
       }
       cb(data);
