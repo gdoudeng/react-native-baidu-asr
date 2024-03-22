@@ -22,8 +22,26 @@ export default class BaiduSynthesizer {
    * @param options 输入事件参数 详细参数解析看 {@see https://ai.baidu.com/ai-doc/SPEECH/Pk8446an5#%E5%90%88%E6%88%90%E5%8F%82%E6%95%B0}
    * @param callback status=0表示成功
    */
-  static speak(text: string, options?: ITtsOptions, callback?: (status: number) => void, utteranceId?: string) {
-    BaiduSynthesizerModule.speak(text, utteranceId, options, callback);
+  static speak(text: string, options?: ITtsOptions, callback?: (status: number) => void): void;
+  /**+
+   * 合成并播放
+   * @param text 要进行语音合成的字符串
+   * @param utteranceId 字符串ID {@see https://ai.baidu.com/ai-doc/SPEECH/7lc624pv0#%E5%90%88%E6%88%90%E5%8F%8A%E6%92%AD%E6%94%BE%E6%8E%A5%E5%8F%A3}
+   * @param options 输入事件参数 详细参数解析看 {@see https://ai.baidu.com/ai-doc/SPEECH/Pk8446an5#%E5%90%88%E6%88%90%E5%8F%82%E6%95%B0}
+   * @param callback status=0表示成功
+   */
+  static speak(text: string, utteranceId?: string, options?: ITtsOptions, callback?: (status: number) => void): void;
+  static speak(
+    text: string,
+    utteranceId?: string | ITtsOptions,
+    options?: ITtsOptions | ((status: number) => void),
+    callback?: (status: number) => void
+  ): void {
+    if (typeof utteranceId === 'string') {
+      BaiduSynthesizerModule.speak(text, utteranceId, options as ITtsOptions, callback);
+    } else {
+      BaiduSynthesizerModule.speak(text, null, utteranceId as ITtsOptions, options as (status: number) => void);
+    }
   }
 
   /**
