@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   PermissionsAndroid,
   ScrollView,
@@ -10,9 +10,9 @@ import {
 
 class HomeScreen extends Component {
   list = [
-    {title: '语音识别', route: 'BaiduAsr'},
-    {title: '语音唤醒', route: 'BaiduWakeUp'},
-    {title: '语音合成', route: 'BaiduSynthesizer'},
+    { title: '语音识别', route: 'BaiduAsr' },
+    { title: '语音唤醒', route: 'BaiduWakeUp' },
+    { title: '语音合成', route: 'BaiduSynthesizer' },
   ];
 
   componentDidMount() {
