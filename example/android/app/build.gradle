@@ -82,6 +82,16 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    splits {
+        abi {
+            reset() // 重置 ABI 列表为只包含一个空字符串（与 include 一起使用可以表示要使用哪一个 ABI，而不是要 exclude 哪些 ABI）
+            enable true // 如果将此元素设为 true，Gradle 会根据您定义的 ABI 生成多个 APK。默认值为 false
+            universalApk false  // 如果设为 true，那么除了按 ABI 生成的 APK 之外，Gradle 还会生成一个通用 APK。通用 APK 将适用于所有 ABI 的代码和资源包含在一个 APK 中。默认值为 false
+            include "arm64-v8a", "armeabi-v7a" // 指明要包含哪些 ABI，只与 reset() 结合使用，以指定确切的 ABI 列表
+        }
+    }
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
