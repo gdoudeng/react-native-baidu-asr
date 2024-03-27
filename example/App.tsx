@@ -1,6 +1,8 @@
-import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import BaiduAsrScreen from './src/BaiduAsrScreen';
 import HomeScreen from './src/HomeScreen';
 import BaiduWakeUpScreen from './src/BaiduWakeUpScreen';

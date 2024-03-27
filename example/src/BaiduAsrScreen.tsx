@@ -8,7 +8,7 @@
  * https://github.com/facebook/react-native
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -77,7 +77,7 @@ export default class BaiduAsrScreen extends Component {
   };
 
   onRecognizerError = (data: IBaseData<RecognizerResultError>) => {
-    this.setState({status: data.msg});
+    this.setState({ status: data.msg });
     ToastAndroid.show(
       `${data.msg}，错误码: 【${data.data.errorCode}, ${data.data.subErrorCode}】，${data.data.descMessage}`,
       ToastAndroid.LONG,
@@ -99,7 +99,7 @@ export default class BaiduAsrScreen extends Component {
   handleAction = () => {
     if (this.state.isStart) {
       BaiduAsr.cancel();
-      this.setState({isStart: false});
+      this.setState({ isStart: false });
     } else {
       BaiduAsr.start({
         // 长语音
@@ -108,12 +108,12 @@ export default class BaiduAsrScreen extends Component {
         // 禁用标点符号
         DISABLE_PUNCTUATION: true,
       });
-      this.setState({isStart: true});
+      this.setState({ isStart: true });
     }
   };
 
   render() {
-    const {results, status, isStart, speechRecognizerVolume} = this.state;
+    const { results, status, isStart, speechRecognizerVolume } = this.state;
     // 0,1,2,3 ...
     const speechRecognizerVolumeList = [
       ...Array(speechRecognizerVolume).keys(),

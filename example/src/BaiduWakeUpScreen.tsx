@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Button,
   ScrollView,
@@ -51,7 +51,7 @@ class BaiduWakeUpScreen extends Component {
   };
 
   onWakeUpError = (data: IBaseData<WakeUpResultError>) => {
-    this.setState({status: data.msg});
+    this.setState({ status: data.msg });
     ToastAndroid.show(
       `${data.msg}，错误码: 【${data.data.errorCode}】，错误消息：${data.data.errorMessage}，原始返回：${data.data.result}`,
       ToastAndroid.LONG,
@@ -62,18 +62,18 @@ class BaiduWakeUpScreen extends Component {
   handleAction = () => {
     if (this.state.isStart) {
       BaiduWakeUp.stop();
-      this.setState({isStart: false});
+      this.setState({ isStart: false });
     } else {
       BaiduWakeUp.start({
         //表示WakeUp.bin文件定义在assets目录下
         WP_WORDS_FILE: 'assets:///WakeUp.bin',
       });
-      this.setState({isStart: true});
+      this.setState({ isStart: true });
     }
   };
 
   render() {
-    const {status, results, isStart} = this.state;
+    const { status, results, isStart } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>{status}</Text>
